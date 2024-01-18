@@ -4,6 +4,10 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import prisma from "@/prisma/client";
 import bcrypt from 'bcrypt';
+import SpotifyProvider from "next-auth/providers/spotify";
+import { NextRequest, NextResponse } from "next/server";
+import schema from "../schema";
+
 
 export const authOptions: NextAuthOptions = {
     adapter: PrismaAdapter(prisma),
@@ -30,7 +34,11 @@ export const authOptions: NextAuthOptions = {
         GoogleProvider({
             clientId: process.env.GOOGLE_CLIENT_ID!,
             clientSecret: process.env.GOOGLE_CLIENT_SECRET!
-        })
+        }),
+        SpotifyProvider({
+            clientId: process.env.SPOTIFY_CLIENT_ID!,
+            clientSecret: process.env.SPOTIFY_CLIENT_SECRET!
+          })
     ],
     session: {
         strategy: 'jwt'
@@ -40,3 +48,4 @@ export const authOptions: NextAuthOptions = {
 const handler = NextAuth(authOptions);
 
 export { handler as GET, handler as POST}
+
