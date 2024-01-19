@@ -1,4 +1,3 @@
-import NextAuth, { NextAuthOptions } from "next-auth";
 import prisma from "@/prisma/client";
 import bcrypt from "bcrypt";
 import { NextRequest, NextResponse } from "next/server";
@@ -13,7 +12,6 @@ export async function POST(request: NextRequest) {
       { error: "Please enter valid credentials" },
       { status: 400 }
     );
-
   const user = await prisma.user.findUnique({
     where: { email: body.email },
   });
