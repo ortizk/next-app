@@ -5,8 +5,12 @@ import schema from "../schema";
 import { error } from "console";
 
 export async function POST(request: NextRequest) {
+  // LEFT OFF: fordata is not a json object. have to figure out how to convertCompilerOptionsFromJson. Route uses json
+  // const body = await request.formData();
   const body = await request.json();
   const validation = schema.safeParse(body);
+  // TO DO
+  // zod handle password confirmation, find how to display the error message from schema
   if (!validation.success)
     return NextResponse.json(
       { error: "Please enter valid credentials" },

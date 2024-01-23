@@ -1,8 +1,7 @@
 "use client";
-
 import React, { FormEvent, useState } from "react";
 
-const SignUpPage = () => {
+export default function SignUpPage() {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -14,25 +13,28 @@ const SignUpPage = () => {
   const [formSuccessMessage, setFormSuccessMessage] = useState("");
 
   const handleInput = (e) => {
-    const fielName = e.target.name;
+    const fieldName = e.target.name;
     const fieldValue = e.target.value;
 
     setFormData((prevState) => ({
       ...prevState,
-      [fielName]: fieldValue,
+      [fieldName]: fieldValue,
     }));
   };
 
   const submitForm = (e) => {
+    // We don't want the page to refresh
     e.preventDefault();
 
     const formURL = e.target.action;
     const data = new FormData();
 
+    // Turn our formData state into data we can use with a form submission
     Object.entries(formData).forEach(([key, value]) => {
       data.append(key, value);
     });
 
+    // POST the data to the URL of the form
     fetch(formURL, {
       method: "POST",
       body: data,
@@ -50,9 +52,13 @@ const SignUpPage = () => {
         });
 
         setFormSuccess(true);
-        setFormSuccessMessage(data);
+        setFormSuccessMessage(data.submission_text);
       });
+    console.log("this is data");
+    console.log(data);
+    console.log(`with type: ${typeof data}`);
   };
+
   return (
     <div className="relative flex flex-col justify-center h-screen overflow-hidden">
       <div className="w-full p-6 m-auto bg-white rounded-md shadow-md ring-2 ring-gray-800/50 lg:max-w-xl">
@@ -65,7 +71,7 @@ const SignUpPage = () => {
           <form
             className="space-y-4"
             method="POST"
-            action="/api/auth/signup"
+            action="#"
             onSubmit={submitForm}
           >
             <div>
@@ -137,6 +143,4 @@ const SignUpPage = () => {
       </div>
     </div>
   );
-};
-
-export default SignUpPage;
+}
